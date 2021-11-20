@@ -3,7 +3,6 @@
   "description": "Chrome Extension in React!",
   "version": "1.0.0",
   "manifest_version": 3,
-  "devtools_page": "devtools.html",
   "icons": {
     "16": "icon.png",
     "48": "icon.png",
@@ -20,17 +19,19 @@
 		"downloads",
 		"notifications",
 		"activeTab",
-		"<all_urls>",
-		"http://*/*",
-		"https://*/*",
 		"background",
 		"tabs",
-		"debugger"
+    "scripting",
+    "webRequest"
 	],
   "options_page": "options.html",
   "background": {
     "service_worker": "background.js"
   },
+  "web_accessible_resources": [{
+    "resources": ["injected_script.js"],
+    "matches": ["<all_urls>"]
+  }],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],

@@ -6,7 +6,7 @@ const App: React.FC<{}> = () => {
   return (
     <div id="wrap">
         <button className="current success" id="exportButton">Download Log</button>
-        <button className="current log" id="whatToCapture">Save Console</button>
+        <button className="current log" id="whatToCapture">Cature Console</button>
 
         <script src="popup.js"></script>
       </div>
@@ -24,18 +24,11 @@ ReactDOM.render(<App />, root);
 
 	captureButton.onclick = function (event) {
 			// get active tab and send message
-			chrome.tabs.query({
-				active: true,
-				currentWindow: true,
-			}, function (tabs) {
-				var tab = tabs[0];
-				let message = { action: "getConsoleLog", tabId: tab.id };
-				// console.log(JSON.stringify(message))
-                chrome.runtime.sendMessage(message, function (a) {
-                    // 3. Got an asynchronous response with the data from the background
-                    // console.log('received data', a);
-                  });
-			});
+			chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+				chrome.tabs.sendMessage(tabs[0].id, {action: "PASH_START_CAPTURING"}, function(response) {
+				  console.log(response.farewell);
+				});
+			  });
 	}
 
 
@@ -48,13 +41,13 @@ ReactDOM.render(<App />, root);
 				currentWindow: true,
 			}, function (tabs) {
 				var tab = tabs[0];
-				let message = { action: "donwloadLog", tabId: tab.id,event:event };
-
-				// console.log(JSON.stringify(message))
-                chrome.runtime.sendMessage(message, function (a) {
-                    // 3. Got an asynchronous response with the data from the background
-                    // console.log('received data', a);
-                  });
+				let message = { action: "PASH_DOWNLOAD_LOG", tabId: tab.id,event:event };
+	
+				chrome.runtime.sendMessage(message, function (a) {
+					// 3. Got an asynchronous response with the data from the background
+					console.log('received data', a);
+					});
+	
 			});
 	}
 })();

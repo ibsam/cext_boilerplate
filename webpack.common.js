@@ -9,6 +9,7 @@ module.exports = {
     options: path.resolve('src/options/options.tsx'),
     background: path.resolve('src/background/background.ts'),
     contentScript: path.resolve('src/contentScript/contentScript.ts'),
+    injected_script: path.resolve('src/injectedScript/injected_script.ts'),
   },
   module: {
     rules: [
